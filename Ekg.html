@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HCD-M - Registro de Electrocardiograma (ECG)</title>
+    <style>
+        :root {
+            --primary: #1e3a8a;
+            --primary-light: #3b82f6;
+            --secondary: #0f766e;
+            --bg-main: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --danger: #dc2626;
+            --warning: #d97706;
+            --success: #16a34a;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            padding: 1rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary), #1e40af);
+            color: white;
+            padding: 1.25rem 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        header p {
+            font-size: 0.875rem;
+            opacity: 0.9;
+            margin-top: 0.25rem;
+        }
+
+        /* Tabs Navigation */
+        .tabs-nav {
+            display: flex;
+            gap: 0.5rem;
+            overflow-x: auto;
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .tab-btn {
+            background: none;
+            border: none;
+            padding: 0.6rem 1rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            cursor: pointer;
+            border-radius: 8px;
+            white-space: nowrap;
+            transition: all 0.2s;
+        }
+
+        .tab-btn:hover {
+            background-color: #e2e8f0;
+            color: var(--text-main);
+        }
+
+        .tab-btn.active {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        /* Tab Content Panel */
+        .tab-content {
+            display: none;
+            background: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        input[type="number"], input[type="text"], select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        input[type="number"]:focus, input[type="text"]:focus, select:focus {
+            border-color: var(--primary-light);
+        }
+
+        /* Binary / Option Buttons */
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 0.75rem;
+        }
+
+        .option-btn {
+            background-color: var(--bg-main);
+            border: 2px solid var(--border);
+            padding: 0.75rem;
+            border-radius: 8px;
+            font-weight: 600;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .option-btn:hover {
+            border-color: var(--primary-light);
+        }
+
+        .option-btn.selected {
+            background-color: #eff6ff;
+            border-color: var(--primary-light);
+            color: var(--primary);
+        }
+
+        /* Derivations Grid (12 Derivations) */
+        .derivations-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 0.5rem;
+            margin-top: 0.75rem;
+        }
+
+        @media (max-width: 600px) {
+            .derivations-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        .deriv-btn {
+            background: #f1f5f9;
+            border: 1px solid var(--border);
+            padding: 0.6rem 0.25rem;
+            text-align: center;
+            font-weight: 700;
+            border-radius: 6px;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .deriv-btn.selected-red {
+            background-color: #fee2e2;
+            border-color: var(--danger);
+            color: var(--danger);
+        }
+
+        .deriv-btn.selected-blue {
+            background-color: #dbeafe;
+            border-color: var(--primary-light);
+            color: var(--primary);
+        }
+
+        /* Cabrera Circle Mock */
+        .cabrera-circle {
+            width: 240px;
+            height: 240px;
+            border-radius: 50%;
+            border: 3px dashed var(--primary-light);
+            margin: 1.5rem auto;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #fafafa;
+        }
+
+        .cabrera-point {
+            position: absolute;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: white;
+            border: 1px solid var(--border);
+            font-size: 0.75rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .cabrera-point.selected {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        /* Flow Indicators for ECG Parameters */
+        .ecg-flow {
+            display: flex;
+            gap: 0.5rem;
+            overflow-x: auto;
+            padding-bottom: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .flow-item {
+            padding: 0.5rem 1rem;
+            background: #f1f5f9;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            white-space: nowrap;
+        }
+
+        .flow-item.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-submit {
+            background-color: var(--success);
+            color: white;
+            border: none;
+            width: 100%;
+            padding: 1rem;
+            font-size: 1rem;
+            font-weight: 700;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 1.5rem;
+        }
+
+        .btn-submit:hover {
+            background-color: #15803d;
+        }
+
+        /* Multi ECG List */
+        .ecg-history-list {
+            list-style: none;
+            margin-top: 1rem;
+        }
+
+        .ecg-history-item {
+            padding: 1rem;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            margin-bottom: 0.75rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #f8fafc;
+        }
+
+        .info-tag {
+            font-size: 0.8rem;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            background: #e2e8f0;
+            color: var(--text-main);
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>HCD-M - Módulo de Registro ECG</h1>
+        <p>Aplicación de Registro de Electrocardiogramas en Emergencias</p>
+    </header>
+
+    <div class="tabs-nav">
+        <button class="tab-btn active" onclick="openTab('tab-fc')">1. Frecuencia</button>
+        <button class="tab-btn" onclick="openTab('tab-dolor')">2. Dolor</button>
+        <button class="tab-btn" onclick="openTab('tab-eje')">3. Eje Eléctrico</button>
+        <button class="tab-btn" onclick="openTab('tab-ritmo')">4. Ritmo</button>
+        <button class="tab-btn" onclick="openTab('tab-parametros')">5. Parámetros</button>
+        <button class="tab-btn" onclick="openTab('tab-historial')">12. Registro Múltiple</button>
+    </div>
+
+    <!-- 1. FRECUENCIA CARDÍACA -->
+    <div id="tab-fc" class="tab-content active">
+        <h2>1. Frecuencia Cardíaca</h2>
+        <p style="color: var(--text-muted); font-size: 0.875rem; margin-bottom: 1rem;">Introduzca el valor directo medido en el electrocardiograma.</p>
+        <div class="form-group">
+            <label for="input-fc">Frecuencia Cardíaca (spm)</label>
+            <input type="number" id="input-fc" placeholder="Ej. 75" min="0" max="300">
+        </div>
+    </div>
+
+    <!-- 2. PRESENCIA DE DOLOR -->
+    <div id="tab-dolor" class="tab-content">
+        <h2>2. Presencia de Dolor</h2>
+        <p style="color: var(--text-muted); font-size: 0.875rem; margin-bottom: 1rem;">¿El paciente presenta dolor torácico/asociado al momento de la toma?</p>
+        <div class="options-grid">
+            <div class="option-btn" id="dolor-si" onclick="selectOption('dolor', 'Sí')">Sí</div>
+            <div class="option-btn selected" id="dolor-no" onclick="selectOption('dolor', 'No')">No</div>
+        </div>
+    </div>
+
+    <!-- 3. EJE ELÉCTRICO -->
+    <div id="tab-eje" class="tab-content">
+        <h2>3. Eje Eléctrico</h2>
+        <div class="form-group">
+            <label>A. Introducción Directa (°)</label>
+            <input type="number" id="input-eje" placeholder="Ej. 60" oninput="updateEjeInterpretacion(this.value)">
+            <span id="eje-interpretacion" style="font-weight: bold; color: var(--primary-light); margin-top: 0.5rem; display: block;"></span>
+        </div>
+
+        <hr style="margin: 1.5rem 0; border: none; border-top: 1px solid var(--border);">
+
+        <label>B. Guía Clínica Gráfica (Círculo de Cabrera)</label>
+        <div class="cabrera-circle">
+            <div class="cabrera-point" style="top: 10px; left: 104px;" onclick="selectCabrera('-90°', 'Indeterminado')">-90°</div>
+            <div class="cabrera-point" style="top: 40px; right: 20px;" onclick="selectCabrera('-30°', 'Normal')">-30°</div>
+            <div class="cabrera-point" style="top: 104px; right: 5px;" onclick="selectCabrera('0°', 'Normal')">0°</div>
+            <div class="cabrera-point" style="bottom: 40px; right: 20px;" onclick="selectCabrera('+30°', 'Normal')">+30°</div>
+            <div class="cabrera-point" style="bottom: 10px; left: 104px;" onclick="selectCabrera('+90°', 'Normal')">+90°</div>
+            <div class="cabrera-point" style="bottom: 40px; left: 20px;" onclick="selectCabrera('+120°', 'Derecho')">+120°</div>
+            <div class="cabrera-point" style="top: 104px; left: 5px;" onclick="selectCabrera('±180°', 'Indeterminado')">±180°</div>
+            <div class="cabrera-point" style="top: 40px; left: 20px;" onclick="selectCabrera('-150°', 'Indeterminado')">-150°</div>
+        </div>
+        <p id="cabrera-seleccion" style="text-align: center; font-weight: 600;">Selección: Ninguna</p>
+    </div>
+
+    <!-- 4. RITMO CARDÍACO -->
+    <div id="tab-ritmo" class="tab-content">
+        <h2>4. Ritmo Cardíaco</h2>
+        <div class="form-group">
+            <label for="select-ritmo">Seleccione el ritmo identificado:</label>
+            <select id="select-ritmo" size="8">
+                <option value="Sinusal" selected>15. Sinusal</option>
+                <option value="Asistolia">1. Asistolia</option>
+                <option value="Bloqueo AV">2. Bloqueo AV</option>
+                <option value="Bloqueo AV 1º grado">3. Bloqueo AV 1º grado</option>
+                <option value="Bloqueo AV 2º grado tipo 1">4. Bloqueo AV 2º grado tipo 1</option>
+                <option value="Bloqueo AV 2º grado tipo 2">5. Bloqueo AV 2º grado tipo 2</option>
+                <option value="Bloqueo AV 3º grado">6. Bloqueo AV 3º grado</option>
+                <option value="Extrasístoles nodales">7. Extrasístoles nodales</option>
+                <option value="Extrasístole auricular">8. Extrasístole auricular</option>
+                <option value="Extrasístole ventricular">9. Extrasístole ventricular</option>
+                <option value="Fibrilación auricular">10. Fibrilación auricular</option>
+                <option value="Fibrilación ventricular">11. Fibrilación ventricular</option>
+                <option value="Flutter auricular">12. Flutter auricular</option>
+                <option value="Ritmo de la unión">13. Ritmo de la unión</option>
+                <option value="Ritmo marcapasos">14. Ritmo marcapasos</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- 5 - 11. PARÁMETROS -->
+    <div id="tab-parametros" class="tab-content">
+        <h2>5. Parámetros del ECG</h2>
+        
+        <div class="ecg-flow">
+            <span class="flow-item active">P</span>
+            <span class="flow-item">PR</span>
+            <span class="flow-item">Q</span>
+            <span class="flow-item">QT</span>
+            <span class="flow-item">QRS</span>
+            <span class="flow-item">T</span>
+            <span class="flow-item">ST</span>
+        </div>
+
+        <button style="background: #e0f2fe; color: #0369a1; border: 1px solid #bae6fd; padding: 0.5rem 1rem; border-radius: 6px; font-weight: 600; cursor: pointer; margin-bottom: 1.5rem;">
+            📊 Ver Valores Normales
+        </button>
+
+        <!-- 5.1 Onda P -->
+        <div style="background: #f8fafc; border: 1px solid var(--border); padding: 1rem; border-radius: 8px; margin-bottom: 1rem;">
+            <h3>5.1 Onda P</h3>
+            <div class="form-group" style="margin-top: 0.75rem;">
+                <label>Amplitud:</label>
+                <div class="options-grid">
+                    <button class="option-btn">Normal (&lt;2,5 mm)</button>
+                    <button class="option-btn">Alta (&gt;2,5 mm)</button>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Duración:</label>
+                <div class="options-grid">
+                    <button class="option-btn">Normal (&lt;2,5 mm)</button>
+                    <button class="option-btn">Ancha (&gt;2,5 mm)</button>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Signo:</label>
+                <div class="options-grid">
+                    <button class="option-btn">Positiva</button>
+                    <button class="option-btn">Negativa</button>
+                    <button class="option-btn">Bifásica</button>
+                    <button class="option-btn">Bimodal</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 6. Segmento PR -->
+        <div style="background: #f8fafc; border: 1px solid var(--border); padding: 1rem; border-radius: 8px; margin-bottom: 1rem;">
+            <h3>6. Segmento PR</h3>
+            <div class="options-grid" style="margin-top: 0.75rem;">
+                <button class="option-btn">Corto (&lt;0,12 s)</button>
+                <button class="option-btn selected">Normal (0,12–0,20 s)</button>
+                <button class="option-btn">Largo (&gt;0,20 s)</button>
+            </div>
+        </div>
+
+        <!-- 7. Onda Q -->
+        <div style="background: #f8fafc; border: 1px solid var(--border); padding: 1rem; border-radius: 8px; margin-bottom: 1rem;">
+            <h3>7. Onda Q Patológica</h3>
+            <label style="margin-top: 0.5rem;">Marque las derivaciones afectadas:</label>
+            <div class="derivations-grid">
+                <div class="deriv-btn" onclick="toggleDeriv(this, 'red')">I</div>
+                <div class="deriv-btn" onclick="toggleDeriv(this, 'red')">II</div>
+                <div class="deriv-btn" onclick="toggleDeriv(this, 'red')">III</div>
+                <div class="deriv-btn" onclick="toggleDeriv(this, 'red')">aVR</div>
+                <div class="deriv-btn" onclick="toggleDeriv(this, 'red')">aVL</div>
+                <div class="deriv-btn" onclick="toggleDeriv(this, 'red')">aVF</div>
+                <div class="deriv-btn" onclick="toggleDeriv(this, 'red')">V1</div>
+                <div class="deriv-btn" onclick="toggleDeriv(this, 'red')">V2</div>
+                <div class="deriv-btn" onclick="toggleDeriv(this, 'red')">V3</div>
+                <div class="deriv-btn" onclick="toggleDeriv(this, 'red')">V4</div>
+                <div class="deriv-btn" onclick="toggleDeriv(this, 'red')">V5</div>
+                <div class="deriv-btn" onclick="toggleDeriv(this, 'red')">V6</div>
+            </div>
+        </div>
+
+        <!-- 8. Intervalo QT -->
+        <div style="background: #f8fafc; border: 1px solid var(--border); padding: 1rem; border-radius: 8px; margin-bottom: 1rem;">
+            <h3>8. Intervalo QT</h3>
+            <div class="form-group" style="margin-top: 0.75rem;">
+                <label>Duración (ms):</label>
+                <input type="number" placeholder="Ej. 400">
+            </div>
+        </div>
+
+        <!-- 9. Complejo QRS -->
+        <div style="background: #f8fafc; border: 1px solid var(--border); padding: 1rem; border-radius: 8px; margin-bottom: 1rem;">
+            <h3>9. Complejo QRS</h3>
+            <div class="form-group" style="margin-top: 0.75rem;">
+                <label>Duración:</label>
+                <div class="options-grid">
+                    <button class="option-btn">&lt; 0,10 s</button>
+                    <button class="option-btn">0,10–0,12 s</button>
+                    <button class="option-btn">&gt; 0,12 s</button>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Onda Delta:</label>
+                <div class="options-grid">
+                    <button class="option-btn">Sí</button>
+                    <button class="option-btn selected">No</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 10. Onda T -->
+        <div style="background: #f8fafc; border: 1px solid var(--border); padding: 1rem; border-radius: 8px; margin-bottom: 1rem;">
+            <h3>10. Onda T</h3>
+            <div class="options-grid" style="margin-top: 0.75rem;">
+                <button class="option-btn selected">Sin alteraciones</button>
+                <button class="option-btn">Picuda / Alta</button>
+                <button class="option-btn">Plana / Invertida</button>
+            </div>
+            <div class="derivations-grid">
+                <div class="deriv-btn" onclick="toggleDeriv(this, 'blue')">I</div>
+                <div class="deriv-btn" onclick="toggleDeriv(this, 'blue')">II</div>
+                <div class="deriv-btn" onclick="toggleDeriv(this, 'blue')">III</div>
+                <div class="deriv-btn" onclick="toggleDeriv(this, 'blue')">aVR</div>
+                <div class="deriv-btn" onclick="toggleDeriv(this, 'blue')">aVL</div>
+                <div class="deriv-btn" onclick="toggleDeriv(this, 'blue')">aVF</div>
+                <div class="deriv-btn" onclick="toggleDeriv(this, 'blue')">V1</div>
+                <div class="deriv-btn" onclick="toggleDeriv(this, 'blue')">V2</div>
+                <div class="deriv-btn" onclick="toggleDeriv(this, 'blue')">V3</div>
+                <div class="deriv-btn" onclick="toggleDeriv(this, 'blue')">V4</div>
+                <div class="deriv-btn" onclick="toggleDeriv(this, 'blue')">V5</div>
+                <div class="deriv-btn" onclick="toggleDeriv(this, 'blue')">V6</div>
+            </div>
+        </div>
+
+        <!-- 11. Segmento ST -->
+        <div style="background: #f8fafc; border: 1px solid var(--border); padding: 1rem; border-radius: 8px; margin-bottom: 1rem;">
+            <h3>11. Segmento ST</h3>
+            <div class="options-grid" style="margin-top: 0.75rem;">
+                <button class="option-btn selected">ST Isoeléctrico</button>
+                <button class="option-btn">Supradesnivelado</button>
+                <button class="option-btn">Infradesnivelado</button>
+            </div>
+            <div class="derivations-grid">
+                <div class="deriv-btn" onclick="toggleDeriv(this, 'red')">I</div>
+                <div class="deriv-btn" onclick="toggleDeriv(this, 'red')">II</div>
+                <div class="deriv-btn" onclick="toggleDeriv(this, 'red')">III</div>
+                <div class="deriv-btn" onclick="toggleDeriv(this, 'red')">aVR</div>
+                <div class="deriv-btn" onclick="toggleDeriv(this, 'red')">aVL</div>
+                <div class="deriv-btn" onclick="toggleDeriv(this, 'red')">aVF</div>
+                <div class="deriv-btn" onclick="toggleDeriv(this, 'red')">V1</div>
+                <div class="deriv-btn" onclick="toggleDeriv(this, 'red')">V2</div>
+                <div class="deriv-btn" onclick="toggleDeriv(this, 'red')">V3</div>
+                <div class="deriv-btn" onclick="toggleDeriv(this, 'red')">V4</div>
+                <div class="deriv-btn" onclick="toggleDeriv(this, 'red')">V5</div>
+                <div class="deriv-btn" onclick="toggleDeriv(this, 'red')">V6</div>
+            </div>
+        </div>
+
+        <button class="btn-submit" onclick="guardarECG()">💾 Guardar Registro de ECG</button>
+    </div>
+
+    <!-- 12. REGISTRO MÚLTIPLE -->
+    <div id="tab-historial" class="tab-content">
+        <h2>12. Registro Múltiple de ECGs</h2>
+        <p style="color: var(--text-muted); font-size: 0.875rem;">Lista de trazados de ECG registrados para este paciente en la misma atención de emergencia.</p>
+
+        <ul class="ecg-history-list" id="historial-lista">
+            <li class="ecg-history-item">
+                <div>
+                    <strong>ECG #1 - 10:15 AM</strong><br>
+                    <span style="font-size: 0.85rem; color: var(--text-muted);">FC: 82 spm | Ritmo: Sinusal | Dolor: Sí</span>
+                </div>
+                <span class="info-tag">ST Normal</span>
+            </li>
+        </ul>
+    </div>
+
+    <script>
+        function openTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            
+            document.getElementById(tabId).classList.add('active');
+            event.currentTarget.classList.add('active');
+        }
+
+        function selectOption(group, val) {
+            if(group === 'dolor') {
+                document.getElementById('dolor-si').classList.toggle('selected', val === 'Sí');
+                document.getElementById('dolor-no').classList.toggle('selected', val === 'No');
+            }
+        }
+
+        function updateEjeInterpretacion(val) {
+            const span = document.getElementById('eje-interpretacion');
+            if(!val) { span.innerText = ''; return; }
+            let deg = parseInt(val);
+            if(deg >= -30 && deg <= 90) span.innerText = val + "° → Normal";
+            else if(deg < -30 && deg >= -90) span.innerText = val + "° → Desviación a la izquierda";
+            else if(deg > 90 && deg <= 180) span.innerText = val + "° → Desviación a la derecha";
+            else span.innerText = val + "° → Eje Indeterminado";
+        }
+
+        function selectCabrera(grados, zona) {
+            document.getElementById('cabrera-seleccion').innerText = "Selección: " + grados + " (" + zona + ")";
+            document.getElementById('input-eje').value = parseInt(grados);
+            updateEjeInterpretacion(parseInt(grados));
+        }
+
+        function toggleDeriv(el, color) {
+            if(color === 'red') el.classList.toggle('selected-red');
+            if(color === 'blue') el.classList.toggle('selected-blue');
+        }
+
+        function guardarECG() {
+            alert('¡Registro de ECG guardado correctamente en la atención del paciente!');
+            openTab('tab-historial');
+        }
+    </script>
+</body>
+</html>
