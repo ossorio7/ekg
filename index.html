@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HCD-M - Registro de Electrocardiograma (ECG)</title>
+    <title>HCD-M - Registro de Electrocardiogramas</title>
     <style>
         :root {
             --primary: #1e3a8a;
@@ -607,7 +607,7 @@
             const fc = document.getElementById('input-fc').value || '--';
             const ritmo = document.getElementById('select-ritmo').value;
             const now = new Date();
-            const timeStr = now.toLocaleTimeString([], { hour: '2-2-digit', minute: '2-2-digit' });
+            const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
             const nuevoItem = document.createElement('li');
             nuevoItem.className = 'ecg-history-item';
@@ -620,7 +620,7 @@
             `;
 
             document.getElementById('historial-lista').appendChild(nuevoItem);
-            alert('¡Registro de ECG guardado correctamente en la atención del paciente!');
+            alert('¡Registro de ECG guardado correctamente!');
             
             const targetBtn = document.querySelectorAll('.tab-btn')[5];
             openTab('tab-historial', targetBtn);
