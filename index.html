@@ -302,12 +302,12 @@
     </header>
 
     <div class="tabs-nav">
-        <button class="tab-btn active" onclick="openTab('tab-fc')">1. Frecuencia</button>
-        <button class="tab-btn" onclick="openTab('tab-dolor')">2. Dolor</button>
-        <button class="tab-btn" onclick="openTab('tab-eje')">3. Eje Eléctrico</button>
-        <button class="tab-btn" onclick="openTab('tab-ritmo')">4. Ritmo</button>
-        <button class="tab-btn" onclick="openTab('tab-parametros')">5. Parámetros</button>
-        <button class="tab-btn" onclick="openTab('tab-historial')">12. Registro Múltiple</button>
+        <button class="tab-btn active" onclick="openTab('tab-fc', this)">1. Frecuencia</button>
+        <button class="tab-btn" onclick="openTab('tab-dolor', this)">2. Dolor</button>
+        <button class="tab-btn" onclick="openTab('tab-eje', this)">3. Eje Eléctrico</button>
+        <button class="tab-btn" onclick="openTab('tab-ritmo', this)">4. Ritmo</button>
+        <button class="tab-btn" onclick="openTab('tab-parametros', this)">5. Parámetros</button>
+        <button class="tab-btn" onclick="openTab('tab-historial', this)">12. Registro Múltiple</button>
     </div>
 
     <!-- 1. FRECUENCIA CARDÍACA -->
@@ -325,8 +325,8 @@
         <h2>2. Presencia de Dolor</h2>
         <p style="color: var(--text-muted); font-size: 0.875rem; margin-bottom: 1rem;">¿El paciente presenta dolor torácico/asociado al momento de la toma?</p>
         <div class="options-grid">
-            <div class="option-btn" id="dolor-si" onclick="selectOption('dolor', 'Sí')">Sí</div>
-            <div class="option-btn selected" id="dolor-no" onclick="selectOption('dolor', 'No')">No</div>
+            <button type="button" class="option-btn" id="dolor-si" onclick="selectOption('dolor', 'Sí')">Sí</button>
+            <button type="button" class="option-btn selected" id="dolor-no" onclick="selectOption('dolor', 'No')">No</button>
         </div>
     </div>
 
@@ -334,7 +334,7 @@
     <div id="tab-eje" class="tab-content">
         <h2>3. Eje Eléctrico</h2>
         <div class="form-group">
-            <label>A. Introducción Directa (°)</label>
+            <label for="input-eje">A. Introducción Directa (°)</label>
             <input type="number" id="input-eje" placeholder="Ej. 60" oninput="updateEjeInterpretacion(this.value)">
             <span id="eje-interpretacion" style="font-weight: bold; color: var(--primary-light); margin-top: 0.5rem; display: block;"></span>
         </div>
@@ -394,7 +394,7 @@
             <span class="flow-item">ST</span>
         </div>
 
-        <button style="background: #e0f2fe; color: #0369a1; border: 1px solid #bae6fd; padding: 0.5rem 1rem; border-radius: 6px; font-weight: 600; cursor: pointer; margin-bottom: 1.5rem;">
+        <button type="button" onclick="alert('Valores Normales:\n• Onda P: <2.5mm alto, <0.12s ancho\n• PR: 0.12s - 0.20s\n• QRS: <0.10s\n• QTc: <440ms (H) / <460ms (M)')" style="background: #e0f2fe; color: #0369a1; border: 1px solid #bae6fd; padding: 0.5rem 1rem; border-radius: 6px; font-weight: 600; cursor: pointer; margin-bottom: 1.5rem;">
             📊 Ver Valores Normales
         </button>
 
@@ -404,24 +404,24 @@
             <div class="form-group" style="margin-top: 0.75rem;">
                 <label>Amplitud:</label>
                 <div class="options-grid">
-                    <button class="option-btn">Normal (&lt;2,5 mm)</button>
-                    <button class="option-btn">Alta (&gt;2,5 mm)</button>
+                    <button type="button" class="option-btn selected" onclick="selectGroupOption(this)">Normal (&lt;2,5 mm)</button>
+                    <button type="button" class="option-btn" onclick="selectGroupOption(this)">Alta (&gt;2,5 mm)</button>
                 </div>
             </div>
             <div class="form-group">
                 <label>Duración:</label>
                 <div class="options-grid">
-                    <button class="option-btn">Normal (&lt;2,5 mm)</button>
-                    <button class="option-btn">Ancha (&gt;2,5 mm)</button>
+                    <button type="button" class="option-btn selected" onclick="selectGroupOption(this)">Normal (&lt;2,5 mm)</button>
+                    <button type="button" class="option-btn" onclick="selectGroupOption(this)">Ancha (&gt;2,5 mm)</button>
                 </div>
             </div>
             <div class="form-group">
                 <label>Signo:</label>
                 <div class="options-grid">
-                    <button class="option-btn">Positiva</button>
-                    <button class="option-btn">Negativa</button>
-                    <button class="option-btn">Bifásica</button>
-                    <button class="option-btn">Bimodal</button>
+                    <button type="button" class="option-btn selected" onclick="selectGroupOption(this)">Positiva</button>
+                    <button type="button" class="option-btn" onclick="selectGroupOption(this)">Negativa</button>
+                    <button type="button" class="option-btn" onclick="selectGroupOption(this)">Bifásica</button>
+                    <button type="button" class="option-btn" onclick="selectGroupOption(this)">Bimodal</button>
                 </div>
             </div>
         </div>
@@ -430,9 +430,9 @@
         <div style="background: #f8fafc; border: 1px solid var(--border); padding: 1rem; border-radius: 8px; margin-bottom: 1rem;">
             <h3>6. Segmento PR</h3>
             <div class="options-grid" style="margin-top: 0.75rem;">
-                <button class="option-btn">Corto (&lt;0,12 s)</button>
-                <button class="option-btn selected">Normal (0,12–0,20 s)</button>
-                <button class="option-btn">Largo (&gt;0,20 s)</button>
+                <button type="button" class="option-btn" onclick="selectGroupOption(this)">Corto (&lt;0,12 s)</button>
+                <button type="button" class="option-btn selected" onclick="selectGroupOption(this)">Normal (0,12–0,20 s)</button>
+                <button type="button" class="option-btn" onclick="selectGroupOption(this)">Largo (&gt;0,20 s)</button>
             </div>
         </div>
 
@@ -460,8 +460,8 @@
         <div style="background: #f8fafc; border: 1px solid var(--border); padding: 1rem; border-radius: 8px; margin-bottom: 1rem;">
             <h3>8. Intervalo QT</h3>
             <div class="form-group" style="margin-top: 0.75rem;">
-                <label>Duración (ms):</label>
-                <input type="number" placeholder="Ej. 400">
+                <label for="input-qt">Duración (ms):</label>
+                <input type="number" id="input-qt" placeholder="Ej. 400">
             </div>
         </div>
 
@@ -471,16 +471,16 @@
             <div class="form-group" style="margin-top: 0.75rem;">
                 <label>Duración:</label>
                 <div class="options-grid">
-                    <button class="option-btn">&lt; 0,10 s</button>
-                    <button class="option-btn">0,10–0,12 s</button>
-                    <button class="option-btn">&gt; 0,12 s</button>
+                    <button type="button" class="option-btn selected" onclick="selectGroupOption(this)">&lt; 0,10 s</button>
+                    <button type="button" class="option-btn" onclick="selectGroupOption(this)">0,10–0,12 s</button>
+                    <button type="button" class="option-btn" onclick="selectGroupOption(this)">&gt; 0,12 s</button>
                 </div>
             </div>
             <div class="form-group">
                 <label>Onda Delta:</label>
                 <div class="options-grid">
-                    <button class="option-btn">Sí</button>
-                    <button class="option-btn selected">No</button>
+                    <button type="button" class="option-btn" onclick="selectGroupOption(this)">Sí</button>
+                    <button type="button" class="option-btn selected" onclick="selectGroupOption(this)">No</button>
                 </div>
             </div>
         </div>
@@ -488,10 +488,10 @@
         <!-- 10. Onda T -->
         <div style="background: #f8fafc; border: 1px solid var(--border); padding: 1rem; border-radius: 8px; margin-bottom: 1rem;">
             <h3>10. Onda T</h3>
-            <div class="options-grid" style="margin-top: 0.75rem;">
-                <button class="option-btn selected">Sin alteraciones</button>
-                <button class="option-btn">Picuda / Alta</button>
-                <button class="option-btn">Plana / Invertida</button>
+            <div class="options-grid" style="margin-top: 0.75rem; margin-bottom: 0.75rem;">
+                <button type="button" class="option-btn selected" onclick="selectGroupOption(this)">Sin alteraciones</button>
+                <button type="button" class="option-btn" onclick="selectGroupOption(this)">Picuda / Alta</button>
+                <button type="button" class="option-btn" onclick="selectGroupOption(this)">Plana / Invertida</button>
             </div>
             <div class="derivations-grid">
                 <div class="deriv-btn" onclick="toggleDeriv(this, 'blue')">I</div>
@@ -512,10 +512,10 @@
         <!-- 11. Segmento ST -->
         <div style="background: #f8fafc; border: 1px solid var(--border); padding: 1rem; border-radius: 8px; margin-bottom: 1rem;">
             <h3>11. Segmento ST</h3>
-            <div class="options-grid" style="margin-top: 0.75rem;">
-                <button class="option-btn selected">ST Isoeléctrico</button>
-                <button class="option-btn">Supradesnivelado</button>
-                <button class="option-btn">Infradesnivelado</button>
+            <div class="options-grid" style="margin-top: 0.75rem; margin-bottom: 0.75rem;">
+                <button type="button" class="option-btn selected" id="st-status-btn" onclick="selectGroupOption(this)">ST Isoeléctrico</button>
+                <button type="button" class="option-btn" onclick="selectGroupOption(this)">Supradesnivelado</button>
+                <button type="button" class="option-btn" onclick="selectGroupOption(this)">Infradesnivelado</button>
             </div>
             <div class="derivations-grid">
                 <div class="deriv-btn" onclick="toggleDeriv(this, 'red')">I</div>
@@ -533,7 +533,7 @@
             </div>
         </div>
 
-        <button class="btn-submit" onclick="guardarECG()">💾 Guardar Registro de ECG</button>
+        <button type="button" class="btn-submit" onclick="guardarECG()">💾 Guardar Registro de ECG</button>
     </div>
 
     <!-- 12. REGISTRO MÚLTIPLE -->
@@ -544,33 +544,45 @@
         <ul class="ecg-history-list" id="historial-lista">
             <li class="ecg-history-item">
                 <div>
-                    <strong>ECG #1 - 10:15 AM</strong><br>
-                    <span style="font-size: 0.85rem; color: var(--text-muted);">FC: 82 spm | Ritmo: Sinusal | Dolor: Sí</span>
+                    <strong>ECG #1 - Basal</strong><br>
+                    <span style="font-size: 0.85rem; color: var(--text-muted);">FC: 82 spm | Ritmo: Sinusal | Dolor: No</span>
                 </div>
-                <span class="info-tag">ST Normal</span>
+                <span class="info-tag">ST Isoeléctrico</span>
             </li>
         </ul>
     </div>
 
     <script>
-        function openTab(tabId) {
+        let ecgCounter = 1;
+        let dolorEstado = 'No';
+
+        function openTab(tabId, element) {
             document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
             document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
             
             document.getElementById(tabId).classList.add('active');
-            event.currentTarget.classList.add('active');
+            if (element) {
+                element.classList.add('active');
+            }
         }
 
         function selectOption(group, val) {
             if(group === 'dolor') {
+                dolorEstado = val;
                 document.getElementById('dolor-si').classList.toggle('selected', val === 'Sí');
                 document.getElementById('dolor-no').classList.toggle('selected', val === 'No');
             }
         }
 
+        function selectGroupOption(btn) {
+            const parent = btn.parentElement;
+            parent.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
+            btn.classList.add('selected');
+        }
+
         function updateEjeInterpretacion(val) {
             const span = document.getElementById('eje-interpretacion');
-            if(!val) { span.innerText = ''; return; }
+            if(!val && val !== '0') { span.innerText = ''; return; }
             let deg = parseInt(val);
             if(deg >= -30 && deg <= 90) span.innerText = val + "° → Normal";
             else if(deg < -30 && deg >= -90) span.innerText = val + "° → Desviación a la izquierda";
@@ -580,8 +592,9 @@
 
         function selectCabrera(grados, zona) {
             document.getElementById('cabrera-seleccion').innerText = "Selección: " + grados + " (" + zona + ")";
-            document.getElementById('input-eje').value = parseInt(grados);
-            updateEjeInterpretacion(parseInt(grados));
+            const val = parseInt(grados);
+            document.getElementById('input-eje').value = isNaN(val) ? '' : val;
+            updateEjeInterpretacion(val);
         }
 
         function toggleDeriv(el, color) {
@@ -590,8 +603,27 @@
         }
 
         function guardarECG() {
+            ecgCounter++;
+            const fc = document.getElementById('input-fc').value || '--';
+            const ritmo = document.getElementById('select-ritmo').value;
+            const now = new Date();
+            const timeStr = now.toLocaleTimeString([], { hour: '2-2-digit', minute: '2-2-digit' });
+
+            const nuevoItem = document.createElement('li');
+            nuevoItem.className = 'ecg-history-item';
+            nuevoItem.innerHTML = `
+                <div>
+                    <strong>ECG #${ecgCounter} - ${timeStr}</strong><br>
+                    <span style="font-size: 0.85rem; color: var(--text-muted);">FC: ${fc} spm | Ritmo: ${ritmo} | Dolor: ${dolorEstado}</span>
+                </div>
+                <span class="info-tag">Registrado</span>
+            `;
+
+            document.getElementById('historial-lista').appendChild(nuevoItem);
             alert('¡Registro de ECG guardado correctamente en la atención del paciente!');
-            openTab('tab-historial');
+            
+            const targetBtn = document.querySelectorAll('.tab-btn')[5];
+            openTab('tab-historial', targetBtn);
         }
     </script>
 </body>
