@@ -654,7 +654,7 @@
       let interpFC = "Normal";
       if (numFC < 60) interpFC = "Bradicardia";
       else if (numFC > 100) interpFC = "Taquicardia";
-      fcStr = `${fc} spm (${interpFC})`;
+      fcStr = `${fc} ppm (${interpFC})`;
     }
       informe += `PRESENCIA DE DOLOR: ${dolor || "No registrado"}\n`;
     informe += `FRECUENCIA CARDÍACA: ${fcStr}\n`;
