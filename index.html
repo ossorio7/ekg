@@ -15,64 +15,241 @@
       --danger-hover: #bd2130;
       --secondary: #6c757d;
     }
-    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 20px; background: #eef2f5; color: #333; }
-    .container { max-width: 1000px; margin: 0 auto; background: #fff; padding: 25px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
-    
-    /* Navigation Tabs */
-    .tabs { display: flex; flex-wrap: wrap; border-bottom: 2px solid var(--primary); margin-bottom: 20px; gap: 2px; }
-    .tab-btn { padding: 10px 14px; border: none; background: #e9ecef; cursor: pointer; font-weight: 600; color: #495057; border-radius: 4px 4px 0 0; transition: background 0.2s, color 0.2s; }
-    .tab-btn:hover { background: #dee2e6; }
-    .tab-btn.active { background: var(--primary); color: white; }
-    
-    /* Section Content */
-    .tab-content { display: none; }
-    .tab-content.active { display: block; }
 
-    /* Form UI Elements */
-    .form-group { margin-bottom: 20px; }
-    label { display: block; margin-bottom: 6px; font-weight: 600; }
-    input[type="number"], input[type="text"], select, textarea { width: 100%; padding: 10px; box-sizing: border-box; border: 1px solid var(--border); border-radius: 4px; font-size: 14px; }
-    textarea { font-family: monospace; resize: vertical; background: #f8f9fa; line-height: 1.5; }
+    * {
+      box-sizing: border-box;
+    }
 
-    /* Action Buttons */
-    .btn { padding: 8px 16px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 14px; transition: background 0.2s; }
-    .btn-reset { background-color: var(--danger); color: white; }
-    .btn-reset:hover { background-color: var(--danger-hover); }
-    .btn-copy { background-color: var(--active); color: white; font-size: 15px; padding: 10px 20px; }
-    .btn-copy:hover { background-color: #218838; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      margin: 0;
+      padding: 12px;
+      background: #eef2f5;
+      color: #333;
+      -webkit-tap-highlight-color: transparent;
+    }
 
-    .action-bar { display: flex; justify-content: flex-end; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid #eee; }
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      background: #fff;
+      padding: 16px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
 
-    /* Grid de Derivaciones */
-    .lead-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; margin-top: 8px; }
-    .lead-btn { padding: 8px; border: 1px solid var(--border); background: var(--light-gray); cursor: pointer; text-align: center; border-radius: 4px; font-weight: bold; transition: background 0.2s; }
-    .lead-btn:hover { background: #e2e6ea; }
-    .lead-btn.selected { background: var(--primary); color: white; border-color: var(--primary); }
+    h2 {
+      font-size: 1.25rem;
+      margin-top: 0;
+      margin-bottom: 16px;
+      text-align: center;
+      color: var(--primary);
+    }
 
-    /* Panel de Subgrupos */
-    .sub-group { border: 1px dashed var(--border); padding: 15px; border-radius: 6px; margin-bottom: 15px; background: #fafafa; }
-    .sub-title { font-weight: bold; color: var(--primary); margin-bottom: 10px; }
+    h3 {
+      font-size: 1.1rem;
+      margin-top: 10px;
+      margin-bottom: 15px;
+    }
 
-    /* Círculo de Cabrera Diagram */
-    .cabrera-container { text-align: center; margin: 20px 0; background: #fafafa; padding: 15px; border: 1px solid var(--border); border-radius: 6px; }
-    .cabrera-container svg { max-width: 100%; height: auto; }
+    h4 {
+      font-size: 0.95rem;
+      margin-top: 15px;
+      margin-bottom: 10px;
+    }
 
-    .toast { display: none; position: fixed; bottom: 20px; right: 20px; background-color: #323232; color: #fff; padding: 12px 24px; border-radius: 4px; box-shadow: 0 2px 5px rgba(0,0,0,0.3); z-index: 1000; }
+    /* Tabs móviles con scroll horizontal */
+    .tabs {
+      display: flex;
+      overflow-x: auto;
+      border-bottom: 2px solid var(--primary);
+      margin-bottom: 16px;
+      gap: 4px;
+      padding-bottom: 2px;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .tab-btn {
+      padding: 10px 12px;
+      border: none;
+      background: #e9ecef;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.85rem;
+      color: #495057;
+      border-radius: 6px 6px 0 0;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .tab-btn.active {
+      background: var(--primary);
+      color: white;
+    }
+
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    /* Formulario optimizado */
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+
+    input[type="number"], input[type="text"], select, textarea {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-size: 1rem;
+      background-color: #fff;
+    }
+
+    textarea {
+      font-family: inherit;
+      resize: vertical;
+      background: #f8f9fa;
+      line-height: 1.4;
+    }
+
+    /* Botones táctiles */
+    .btn {
+      padding: 12px 18px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 0.95rem;
+      min-height: 44px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .btn-reset {
+      background-color: var(--danger);
+      color: white;
+      width: 100%;
+    }
+
+    .btn-copy {
+      background-color: var(--active);
+      color: white;
+      width: 100%;
+      font-size: 1rem;
+    }
+
+    .action-bar {
+      margin-bottom: 15px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #eee;
+    }
+
+    /* Grid adaptativo para Derivaciones */
+    .lead-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    @media (min-width: 480px) {
+      .lead-grid {
+        grid-template-columns: repeat(6, 1fr);
+      }
+    }
+
+    .lead-btn {
+      padding: 10px 4px;
+      min-height: 44px;
+      border: 1px solid var(--border);
+      background: var(--light-gray);
+      cursor: pointer;
+      text-align: center;
+      border-radius: 6px;
+      font-weight: bold;
+      font-size: 0.9rem;
+    }
+
+    .lead-btn.selected {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+    }
+
+    .sub-group {
+      border: 1px dashed var(--border);
+      padding: 12px;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      background: #fafafa;
+    }
+
+    .sub-title {
+      font-weight: bold;
+      color: var(--primary);
+      margin-bottom: 10px;
+      font-size: 0.95rem;
+    }
+
+    /* Contenedor responsivo para gráfica */
+    .cabrera-container {
+      text-align: center;
+      margin: 15px 0;
+      background: #fafafa;
+      padding: 10px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+    }
+
+    .cabrera-container svg {
+      width: 100%;
+      max-width: 340px;
+      height: auto;
+    }
+
+    .toast {
+      display: none;
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: #323232;
+      color: #fff;
+      padding: 12px 24px;
+      border-radius: 20px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+      z-index: 1000;
+      font-size: 0.9rem;
+      white-space: nowrap;
+    }
   </style>
 </head>
 <body>
 
 <div class="container">
-  <h2>Registro de Electrocardiograma para consulta de enfermería</h2>
+  <h2>Registro ECG Enfermería</h2>
 
-  <!-- Pestañas -->
+  <!-- Pestañas con desplazamiento horizontal -->
   <div class="tabs">
-    <button class="tab-btn active" onclick="switchTab('fc', this)">1. Frecuencia Cardíaca</button>
-    <button class="tab-btn" onclick="switchTab('dolor', this)">2. Presencia de Dolor</button>
-    <button class="tab-btn" onclick="switchTab('eje', this)">3. Eje Eléctrico</button>
-    <button class="tab-btn" onclick="switchTab('ritmo', this)">4. Ritmo Cardíaco</button>
+    <button class="tab-btn active" onclick="switchTab('fc', this)">1. FC</button>
+    <button class="tab-btn" onclick="switchTab('dolor', this)">2. Dolor</button>
+    <button class="tab-btn" onclick="switchTab('eje', this)">3. Eje</button>
+    <button class="tab-btn" onclick="switchTab('ritmo', this)">4. Ritmo</button>
     <button class="tab-btn" onclick="switchTab('parametros', this)">5. Parámetros</button>
-    <button class="tab-btn" onclick="switchTab('resumen', this)">6. Informe Resumen</button>
+    <button class="tab-btn" onclick="switchTab('otros', this)">6. Otros datos</button>
+    <button class="tab-btn" onclick="switchTab('resumen', this)">7. Resumen</button>
   </div>
 
   <!-- 1. Frecuencia cardíaca -->
@@ -84,7 +261,7 @@
     <div class="form-group">
       <label for="input-fc">Frecuencia cardíaca (spm):</label>
       <input type="number" id="input-fc" placeholder="Ej. 75" min="0" max="300" oninput="evaluarFC(this.value)">
-      <p id="fc-interpretacion">Sin evaluar</p>
+      <p id="fc-interpretacion">Estado: Sin evaluar</p>
     </div>
   </div>
 
@@ -95,7 +272,7 @@
     </div>
     <h3>2. Presencia de Dolor Torácico</h3>
     <div class="form-group">
-      <label>¿Presenta dolor?</label>
+      <label for="select-dolor">¿Presenta dolor?</label>
       <select id="select-dolor">
         <option value="">-- Seleccione --</option>
         <option value="Sí">Sí</option>
@@ -121,9 +298,8 @@
     <hr>
 
     <h4>B. Guía clínica gráfica (Círculo de Cabrera)</h4>
-    <p>Seleccione zona o posición angular:</p>
     <div class="form-group">
-      <label>Zona:</label>
+      <label for="eje-zona">Zona:</label>
       <select id="eje-zona">
         <option value="">-- Seleccionar Zona --</option>
         <option value="Normal">Normal (-30° a +90°)</option>
@@ -151,19 +327,17 @@
       </div>
     </div>
 
-    <!-- Imagen del Círculo de Cabrera -->
+    <!-- Imagen vectorizada del Círculo de Cabrera -->
     <div class="cabrera-container">
-      <svg width="340" height="340" viewBox="0 0 340 340">
+      <svg viewBox="0 0 340 340">
         <circle cx="170" cy="170" r="140" fill="none" stroke="#ccc" stroke-width="2"/>
         
-        <!-- Zonas de color -->
         <path d="M 170 170 L 310 170 A 140 140 0 0 1 170 310 Z" fill="#28a745" opacity="0.15"/>
         <path d="M 170 170 L 310 170 A 140 140 0 0 0 291 100 Z" fill="#28a745" opacity="0.15"/>
         <path d="M 170 170 L 291 100 A 140 140 0 0 0 170 30 Z" fill="#ffc107" opacity="0.2"/>
         <path d="M 170 170 L 170 310 A 140 140 0 0 0 30 170 Z" fill="#fd7e14" opacity="0.2"/>
         <path d="M 170 170 L 30 170 A 140 140 0 0 0 170 30 Z" fill="#dc3545" opacity="0.2"/>
 
-        <!-- Ejes -->
         <line x1="30" y1="170" x2="310" y2="170" stroke="#666" stroke-width="1.5"/>
         <line x1="170" y1="30" x2="170" y2="310" stroke="#666" stroke-width="1.5"/>
         <line x1="48.8" y1="100" x2="291.2" y2="240" stroke="#aaa" stroke-width="1" stroke-dasharray="4"/>
@@ -171,7 +345,6 @@
         <line x1="100" y1="48.8" x2="240" y2="291.2" stroke="#aaa" stroke-width="1" stroke-dasharray="4"/>
         <line x1="100" y1="291.2" x2="240" y2="48.8" stroke="#aaa" stroke-width="1" stroke-dasharray="4"/>
 
-        <!-- Etiquetas de derivaciones -->
         <text x="320" y="174" font-size="12" font-weight="bold" fill="#0056b3">I (0°)</text>
         <text x="250" y="305" font-size="12" font-weight="bold" fill="#0056b3">II (+60°)</text>
         <text x="170" y="325" font-size="12" font-weight="bold" fill="#0056b3" text-anchor="middle">aVF (+90°)</text>
@@ -211,15 +384,16 @@
     </div>
     <h3>5. Parámetros del ECG</h3>
 
-    <!-- 5.1 Onda P Dual -->
     <h4>5.1 Onda P</h4>
     <div class="form-group">
-      <label>Amplitud:</label>
+      <label for="p-amplitud">Amplitud:</label>
       <select id="p-amplitud">
         <option value="Normal">Normal (&lt;2,5 mm)</option>
         <option value="Alta">Alta (&gt;2,5 mm)</option>
       </select>
-      <label>Duración:</label>
+    </div>
+    <div class="form-group">
+      <label for="p-duracion">Duración:</label>
       <select id="p-duracion">
         <option value="Normal">Normal (&lt;2,5 mm)</option>
         <option value="Ancha">Ancha (&gt;2,5 mm)</option>
@@ -229,13 +403,15 @@
     <!-- Bloque Onda P - Selección 1 -->
     <div class="sub-group">
       <div class="sub-title">Onda P - Configuración 1</div>
-      <label>Signo:</label>
-      <select id="p-signo-1">
-        <option value="Positiva">Positiva</option>
-        <option value="Negativa">Negativa</option>
-        <option value="Bifásica">Bifásica</option>
-        <option value="Bimodal">Bimodal</option>
-      </select>
+      <div class="form-group">
+        <label for="p-signo-1">Signo:</label>
+        <select id="p-signo-1">
+          <option value="Positiva">Positiva</option>
+          <option value="Negativa">Negativa</option>
+          <option value="Bifásica">Bifásica</option>
+          <option value="Bimodal">Bimodal</option>
+        </select>
+      </div>
       <label>Derivaciones afectadas (Grupo 1):</label>
       <div class="lead-grid" id="grid-onda-p-1"></div>
     </div>
@@ -243,19 +419,20 @@
     <!-- Bloque Onda P - Selección 2 -->
     <div class="sub-group">
       <div class="sub-title">Onda P - Configuración 2 (Opcional)</div>
-      <label>Signo:</label>
-      <select id="p-signo-2">
-        <option value="Ninguno">-- Ninguno --</option>
-        <option value="Positiva">Positiva</option>
-        <option value="Negativa">Negativa</option>
-        <option value="Bifásica">Bifásica</option>
-        <option value="Bimodal">Bimodal</option>
-      </select>
+      <div class="form-group">
+        <label for="p-signo-2">Signo:</label>
+        <select id="p-signo-2">
+          <option value="Ninguno">-- Ninguno --</option>
+          <option value="Positiva">Positiva</option>
+          <option value="Negativa">Negativa</option>
+          <option value="Bifásica">Bifásica</option>
+          <option value="Bimodal">Bimodal</option>
+        </select>
+      </div>
       <label>Derivaciones afectadas (Grupo 2):</label>
       <div class="lead-grid" id="grid-onda-p-2"></div>
     </div>
 
-    <!-- 6. Segmento PR -->
     <h4>6. Segmento PR</h4>
     <div class="form-group">
       <select id="pr-segmento">
@@ -265,93 +442,106 @@
       </select>
     </div>
 
-    <!-- 7. Onda Q Patológica -->
     <h4>7. Onda Q Patológica</h4>
     <div class="form-group">
       <label>Seleccionar derivaciones con Q patológica:</label>
       <div class="lead-grid" id="grid-onda-q"></div>
     </div>
 
-    <!-- 8. Intervalo QT -->
     <h4>8. Intervalo QT</h4>
     <div class="form-group">
-      <label>Duración (ms):</label>
+      <label for="qt-ms">Duración (ms):</label>
       <input type="number" id="qt-ms" placeholder="Ej. 400">
-      <label>Duración (mm):</label>
+    </div>
+    <div class="form-group">
+      <label for="qt-mm">Duración (mm):</label>
       <input type="number" id="qt-mm" placeholder="Ej. 10">
     </div>
 
-    <!-- 9. Complejo QRS -->
     <h4>9. Complejo QRS</h4>
     <div class="form-group">
-      <label>Duración:</label>
+      <label for="qrs-duracion">Duración:</label>
       <select id="qrs-duracion">
         <option value="<0,12 s">&lt;0,12 s (estrecho)</option>
         <option value=">0,12 s">&gt;0,12 s (ancho)</option>
       </select>
-      <label>Onda delta:</label>
+    </div>
+    <div class="form-group">
+      <label for="qrs-delta">Onda delta:</label>
       <select id="qrs-delta">
         <option value="No">No</option>
         <option value="Sí">Sí</option>
       </select>
     </div>
 
-    <!-- 10. Onda T -->
     <h4>10. Onda T</h4>
     <div class="form-group">
-      <label>Alteración:</label>
+      <label for="t-alteracion">Alteración:</label>
       <select id="t-alteracion">
         <option value="Sin alteraciones">Sin alteraciones</option>
         <option value="Picuda/Alta">Picuda / Alta</option>
         <option value="Invertida">Invertida</option>
         <option value="Plana">Plana</option>
       </select>
+    </div>
+    <div class="form-group">
       <label>Derivaciones asociadas:</label>
       <div class="lead-grid" id="grid-onda-t"></div>
     </div>
 
-    <!-- 11. Segmento ST Dual -->
     <h4>11. Segmento ST</h4>
-
-    <!-- Bloque Segmento ST - Selección 1 -->
     <div class="sub-group">
       <div class="sub-title">Segmento ST - Configuración 1</div>
-      <label>Alteración:</label>
-      <select id="st-alteracion-1">
-        <option value="Isoeléctrico">Sin alteraciones (ST isoeléctrico)</option>
-        <option value="Supradesnivelado">Supradesnivelado</option>
-        <option value="Infradesnivelado">Infradesnivelado</option>
-      </select>
+      <div class="form-group">
+        <label for="st-alteracion-1">Alteración:</label>
+        <select id="st-alteracion-1">
+          <option value="Isoeléctrico">Sin alteraciones (ST isoeléctrico)</option>
+          <option value="Supradesnivelado">Supradesnivelado</option>
+          <option value="Infradesnivelado">Infradesnivelado</option>
+        </select>
+      </div>
       <label>Derivaciones afectadas (Grupo 1):</label>
       <div class="lead-grid" id="grid-segmento-st-1"></div>
     </div>
 
-    <!-- Bloque Segmento ST - Selección 2 -->
     <div class="sub-group">
       <div class="sub-title">Segmento ST - Configuración 2 (Opcional)</div>
-      <label>Alteración:</label>
-      <select id="st-alteracion-2">
-        <option value="Ninguna">-- Ninguna --</option>
-        <option value="Supradesnivelado">Supradesnivelado</option>
-        <option value="Infradesnivelado">Infradesnivelado</option>
-      </select>
+      <div class="form-group">
+        <label for="st-alteracion-2">Alteración:</label>
+        <select id="st-alteracion-2">
+          <option value="Ninguna">-- Ninguna --</option>
+          <option value="Supradesnivelado">Supradesnivelado</option>
+          <option value="Infradesnivelado">Infradesnivelado</option>
+        </select>
+      </div>
       <label>Derivaciones afectadas (Grupo 2):</label>
       <div class="lead-grid" id="grid-segmento-st-2"></div>
     </div>
   </div>
 
-  <!-- 6. Informe Resumen -->
+  <!-- 6. Otros Datos -->
+  <div id="otros" class="tab-content">
+    <div class="action-bar">
+      <button class="btn btn-reset" onclick="reiniciarRegistro()">🔄 Reiniciar Registro</button>
+    </div>
+    <h3>6. Otros datos complementarios</h3>
+    <div class="form-group">
+      <label for="texto-otros">Información adicional o anotaciones:</label>
+      <textarea id="texto-otros" rows="6" placeholder="Escriba aquí cualquier otro dato relevante (ej. síntomas asociados, medicación actual, antecedentes, etc.)..."></textarea>
+    </div>
+  </div>
+
+  <!-- 7. Informe Resumen -->
   <div id="resumen" class="tab-content">
     <div class="action-bar">
       <button class="btn btn-reset" onclick="reiniciarRegistro()">🔄 Reiniciar Registro</button>
     </div>
-    <h3>6. Informe Resumen del ECG</h3>
-    <p>A continuación se presenta un informe resumen de todos los datos introducidos:</p>
+    <h3>7. Informe Resumen del ECG</h3>
     <div class="form-group">
-      <textarea id="texto-informe" rows="18" readonly></textarea>
+      <textarea id="texto-informe" rows="16" readonly></textarea>
     </div>
-    <div style="text-align: center;">
-      <button class="btn btn-copy" onclick="copiarInforme()">📋 Copiar Informe al Portapapeles</button>
+    <div>
+      <button class="btn btn-copy" onclick="copiarInforme()">📋 Copiar Informe</button>
     </div>
   </div>
 
@@ -480,8 +670,9 @@
     const stAlt2 = document.getElementById('st-alteracion-2').value;
     const stLeads2 = getSelectedLeads('grid-segmento-st-2');
 
-    let informe = "INFORME DE ELECTROCARDIOGRAMA \n\n";
-    
+    const otrosDatos = document.getElementById('texto-otros').value.trim();
+
+    let informe = "INFORME DE ELECTROCARDIOGRAMA\n\n";
 
     let fcStr = "No registrada";
     if (fc) {
@@ -547,20 +738,21 @@
 
     informe += `   • Segmento ST: ${stDetalles.join('; ')}\n`;
 
+    informe += `OTROS DATOS: ${otrosDatos ? otrosDatos : "Sin especificaciones"}\n`;
+
     document.getElementById('texto-informe').value = informe;
   }
 
   function copiarInforme() {
-    const textarea = document.getElementById('texto-informe');
-    textarea.select();
-    textarea.setSelectionRange(0, 99999);
-    
-    navigator.clipboard.writeText(textarea.value).then(() => {
-      showToast();
-    }).catch(err => {
+    const text = document.getElementById('texto-informe').value;
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(text).then(showToast);
+    } else {
+      const textarea = document.getElementById('texto-informe');
+      textarea.select();
       document.execCommand('copy');
       showToast();
-    });
+    }
   }
 
   function showToast() {
@@ -589,12 +781,14 @@
       document.getElementById('pr-segmento').value = 'Normal';
       document.getElementById('qt-ms').value = '';
       document.getElementById('qt-mm').value = '';
-      document.getElementById('qrs-duracion').value = '<0,10 s';
+      document.getElementById('qrs-duracion').value = '<0,12 s';
       document.getElementById('qrs-delta').value = 'No';
       document.getElementById('t-alteracion').value = 'Sin alteraciones';
       
       document.getElementById('st-alteracion-1').value = 'Isoeléctrico';
       document.getElementById('st-alteracion-2').value = 'Ninguna';
+
+      document.getElementById('texto-otros').value = '';
 
       document.querySelectorAll('.lead-btn.selected').forEach(btn => {
         btn.classList.remove('selected');
